@@ -5,11 +5,15 @@ import java.util.ArrayList;
 public class Shop {
     private String name;
     public final short MAX_PRODUCTS = 150;
+    public final short MAX_ROWS = 10;
+    public final short MAX_COLUMNS = 8;
+    private Product[][] shelf;
     private Product[] catalog;
 
     public Shop(String name) {
         this.name = name;
         catalog = new Product[MAX_PRODUCTS];
+        shelf = new Product[MAX_ROWS][MAX_COLUMNS];
     }
 
     public String getName() {
@@ -96,6 +100,18 @@ public class Shop {
         return message;
     }
 
+    public void addProductToShelf(Product objP){
+        boolean found = false;
+        for (int i = 0; i < MAX_ROWS && !found; i++) {
+            for (int j = 0; j < MAX_COLUMNS && !found; j++) {
+                if(shelf[i][j] == null){
+                    shelf[i][j] = objP;
+                    found = true;
+                }
+            }
+        }
+    }
+
     public String showCatalog(){
         StringBuilder message = new StringBuilder("| Catalog Information | \n");
         boolean thereAreProducts = false;
@@ -109,6 +125,26 @@ public class Shop {
             message = new StringBuilder("There are any products in catalog");
         }
         return message.toString();
+    }
+
+    public String showShelf () {
+        String message="";
+        for (int i = 0; i < MAX_ROWS; i++) {
+            for (int j = 0; j < MAX_COLUMNS; j++) {
+                if(shelf[i][j]==null){
+                    message = "     ";
+                } else if (shelf[i][j] instanceof Tie) {
+                    message += "TIES ";
+                }else if (shelf[i][j] instanceof Blouse) {
+                    message += "BLOU";
+                }else if (shelf[i][j] instanceof Jeans) {
+                    message += "JEAN ";
+                }else if (shelf[i][j] instanceof Tie) {
+                    message += "Ties ";
+                }
+            }
+        }
+        return message;
     }
     public double averagePrice(){
         double average = 0;
